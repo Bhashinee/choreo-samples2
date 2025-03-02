@@ -16,8 +16,8 @@ http:Client httpClient = check new (serviceURL,
 );
 
 service / on new http:Listener(8090) {
-    resource function post .(@http:Payload string textMsg) returns string {
-        string response = httpClient->get("/greeting", {"Choreo-API-Key": choreoApiKey});
+    resource function post .(@http:Payload string textMsg) returns string|error {
+        string response = check httpClient->get("/greeting");
         return response;
     }
 }
