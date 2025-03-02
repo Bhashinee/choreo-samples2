@@ -2,10 +2,12 @@ import ballerina/http;
 import ballerina/io;
 
 // Read environment variables
-configurable string serviceURL = "https://eee550ec-010e-41aa-8160-5e2e8c0a1416-dev.e1-us-east-azure.st.choreoapis.dev/default/hello-world/v1";
-configurable string consumerKey = "uFL6SLNJilHGQqc5aUJyMPDflrfC";
-configurable string consumerSecret = "9jUKvvv9DDGXqJF9akNMpnBTJ8zl";
-configurable string tokenURL = "https://eee550ec-010e-41aa-8160-5e2e8c0a1416-dev.e1-us-east-azure.st.choreosts.dev/oauth2/token";
+
+configurable string serviceURL = os:getEnv("CHOREO_ECHOTOHELLOCONNECTION_SERVICEURL");
+configurable string consumerKey = os:getEnv("CHOREO_ECHOTOHELLOCONNECTION_CONSUMERKEY");
+configurable string consumerSecret = os:getEnv("CHOREO_ECHOTOHELLOCONNECTION_CONSUMERSECRET");
+configurable string tokenURL = os:getEnv("CHOREO_ECHOTOHELLOCONNECTION_TOKENURL");
+configurable string choreoApiKey = os:getEnv("CHOREO_ECHOTOHELLOCONNECTION_APIKEY");
 
 // Create OAuth2 client with client ID, client secret and token URL
 http:Client httpClient = check new (serviceURL,
@@ -13,14 +15,13 @@ http:Client httpClient = check new (serviceURL,
     tokenUrl: tokenURL,
     clientId: consumerKey,
     clientSecret: consumerSecret
-  },
-  httpVersion = "1.1"
+  }
 );
 
 service / on new http:Listener(8090) {
     resource function post .(@http:Payload string textMsg) returns string|error {
         io:println("Received message: " + textMsg);
-        string response = check httpClient->get("/greeting");
+        string response = check httpClient->get("/greeting", {"Choreo-API-Key": choreoApiKey});
         io:println("Response from the service: " + response);
         return response;
     }
