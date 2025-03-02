@@ -20,6 +20,13 @@ http:Client httpClient = check new (serviceURL,
 
 service / on new http:Listener(8090) {
     resource function post .(@http:Payload string textMsg) returns string|error {
+        // print variables
+        io:println("Service URL: " + serviceURL);
+        io:println("Consumer Key: " + consumerKey);
+        io:println("Consumer Secret: " + consumerSecret);
+        io:println("Token URL: " + tokenURL);
+        io:println("Choreo API Key: " + choreoApiKey);
+        
         io:println("Received message: " + textMsg);
         string response = check httpClient->get("/greeting", {"Choreo-API-Key": choreoApiKey});
         io:println("Response from the service: " + response);
