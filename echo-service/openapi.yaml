@@ -1,0 +1,37 @@
+# generate a simple openapi spec for the echo service
+openapi: 3.0.0
+info:
+  title: Echo Service
+  version: 1.0.0
+  description: This is a simple echo service
+  contact:
+    name: Echo Service Team
+    email: test@gmail.com
+    url: 'https://echo-service.com'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: http://localhost:8090
+paths:
+  /echo:
+    get:
+      summary: Echoes the input
+      operationId: echo
+      parameters:
+        - name: input
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Echo response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    
