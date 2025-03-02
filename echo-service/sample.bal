@@ -1,5 +1,6 @@
 import ballerina/http;
 import ballerina/io;
+import ballerina/os;
 
 // Read environment variables
 
@@ -26,7 +27,7 @@ service / on new http:Listener(8090) {
         io:println("Consumer Secret: " + consumerSecret);
         io:println("Token URL: " + tokenURL);
         io:println("Choreo API Key: " + choreoApiKey);
-        
+
         io:println("Received message: " + textMsg);
         string response = check httpClient->get("/greeting", {"Choreo-API-Key": choreoApiKey});
         io:println("Response from the service: " + response);
