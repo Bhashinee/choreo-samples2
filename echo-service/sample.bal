@@ -1,4 +1,5 @@
 import ballerina/http;
+import ballerina/io;
 
 // Read environment variables
 configurable string serviceURL = "https://eee550ec-010e-41aa-8160-5e2e8c0a1416-dev.e1-us-east-azure.st.choreoapis.dev/default/hello-world/v1";
@@ -17,7 +18,9 @@ http:Client httpClient = check new (serviceURL,
 
 service / on new http:Listener(8090) {
     resource function post .(@http:Payload string textMsg) returns string|error {
+        io:println("Received message: " + textMsg);
         string response = check httpClient->get("/greeting");
+        io:println("Response from the service: " + response);
         return response;
     }
 }
