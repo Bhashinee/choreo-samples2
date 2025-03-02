@@ -13,7 +13,8 @@ http:Client httpClient = check new (serviceURL,
     tokenUrl: tokenURL,
     clientId: consumerKey,
     clientSecret: consumerSecret
-  }
+  },
+  httpVersion = "1.1"
 );
 
 service / on new http:Listener(8090) {
